@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes moveToTop {
+    to {
+      transform: translateY(-20vh); /* Adjust as necessary */
+    }
+  }
+  
+  .animate-moveToTop {
+    animation: moveToTop 0.5s forwards; /* Adjust duration as necessary */
+  }
+  
+  .moveToTop {
+    transition: transform 0.5s;
+    transform: translateY(-20vh); /* Adjust as necessary */
+  }
+  

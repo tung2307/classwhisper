@@ -34,28 +34,28 @@ export default function Home() {
   return (
     <>
       <div
-        className="flex h-screen w-screen flex-col items-center justify-center gap-5 bg-cover bg-center"
+        className="flex h-screen w-screen flex-col items-center justify-center gap-2 bg-cover bg-center md:gap-5"
         style={{
           backgroundImage:
             "url('/—Pngtree—geometric rounded square shape background_1178834.jpg')",
         }}
       >
         <div
-          className={`flex flex-col gap-5 ${
+          className={`flex flex-col gap-2 md:gap-5 ${
             isSchoolSelected
               ? ""
               : "transition-all duration-300 ease-in-out hover:scale-105"
           }`}
         >
           <div
-            className={`w-full text-center text-5xl font-bold text-white ${
+            className={`w-full text-center text-3xl font-bold text-white md:text-5xl ${
               isSchoolSelected ? "moveToTop" : ""
             }`}
           >
             CLASS WHISPER
           </div>
           {selectedSchool && (
-            <div className="flex w-full flex-row justify-center text-2xl text-white">
+            <div className="flex w-full flex-row justify-center text-lg text-white md:text-2xl">
               <div>Tìm giảng viên ở&nbsp;</div>{" "}
               <div className="border-b font-bold">{selectedSchool}</div>
             </div>
@@ -70,14 +70,14 @@ export default function Home() {
         {showProfessorInput ? (
           <div
             onClick={handleClick}
-            className="cursor-pointer select-none border-b text-xl text-white"
+            className="cursor-pointer select-none border-b text-base text-white md:text-xl"
           >
             Tìm Trường Đại Học
           </div>
         ) : (
           <div
             onClick={handleClick}
-            className="cursor-pointer select-none border-b text-xl text-white"
+            className="cursor-pointer select-none border-b text-base text-white md:text-xl"
           >
             Tìm Giảng Viên
           </div>
@@ -90,7 +90,7 @@ export default function Home() {
 function ProfessorInput({ schoolName }: { schoolName: string | null }) {
   return (
     <div className="flex w-full justify-center">
-      <div className="relative h-14 w-[30rem] transition duration-300 hover:scale-105">
+      <div className="relative h-14 w-64 transition duration-300 hover:scale-105 md:w-[30rem]">
         <Image
           src="/computer-icons-teacher-professor-education-lecturer-teacher-d1c3ff4a48ee0558d7b2bba418829c52.png"
           width={50}
@@ -135,7 +135,7 @@ function SchoolInput({
 
   return (
     <div className="flex w-full justify-center">
-      <div className="relative h-14 w-[30rem] transition duration-300 hover:scale-105">
+      <div className="relative h-14 w-64 transition duration-300 hover:scale-105 md:w-[30rem]">
         <Image
           src="/pngfind.com-education-icon-png-55817.png"
           width={40}

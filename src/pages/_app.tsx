@@ -5,18 +5,10 @@ import Head from "next/head";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
 
-import { viVN, enUS } from "@clerk/localizations";
-import { useRouter } from "next/router";
-
+import { viVN } from "@clerk/localizations";
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  const { locale } = router;
-
-  // Choose the appropriate Clerk localization based on the current locale
-  const clerkLocalization = locale === "vi" ? viVN : enUS;
-
   return (
-    <ClerkProvider localization={clerkLocalization} {...pageProps}>
+    <ClerkProvider localization={viVN} {...pageProps}>
       <Head>
         <title>classWhisper</title>
         <meta name="description" content="" />
@@ -26,6 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div className="flex flex-col ">
         <div className="mx-auto w-screen">
           <div className="flex-grow">
+            {/* Add a Provider or context here to bypass authentication if necessary */}
             <Component {...pageProps} />
           </div>
         </div>

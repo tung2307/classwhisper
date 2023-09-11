@@ -5,11 +5,10 @@ import schoolData from "../utils/university.json";
 import { useRouter } from "next/router";
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
-interface SchoolData {
-  [key: string]: string;
-}
+type SchoolData = Record<string, string>;
+
 const schoolDataTyped: SchoolData = schoolData;
-function isMatch(school: string, query: string) {
+function isMatch(school: string, schoolCode: string, query: string) {
   function removeAccents(str: string) {
     return str
       .normalize("NFD")
@@ -18,9 +17,14 @@ function isMatch(school: string, query: string) {
       .replace(/[\u0300-\u036f]/g, "");
   }
 
-  return removeAccents(school)
-    .toLowerCase()
-    .includes(removeAccents(query).toLowerCase());
+  return (
+    removeAccents(school)
+      .toLowerCase()
+      .includes(removeAccents(query).toLowerCase()) ||
+    removeAccents(schoolCode)
+      .toLowerCase()
+      .includes(removeAccents(query).toLowerCase())
+  );
 }
 
 export default function Home() {
@@ -128,7 +132,7 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
     { enabled: !!inputValue },
   );
 
-  const handleInputChange = async (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
 
@@ -226,10 +230,11 @@ function SchoolInput({
     const value = event.target.value;
     setInputValue(value);
 
-    const filteredSuggestions = Object.keys(schoolDataTyped).filter(
-      (school) =>
-        isMatch(school, value) || isMatch(schoolDataTyped[school] || "", value),
-    );
+    const filteredSuggestions = Object.entries(schoolDataTyped)
+      .filter(([school, schoolCode]) =>
+        isMatch(school, schoolCode ?? "", value),
+      )
+      .map(([school, schoolCode]) => school);
 
     setSuggestions(filteredSuggestions);
   };

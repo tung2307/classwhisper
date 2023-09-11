@@ -1,12 +1,24 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+interface ProfessorNameCondition {
+  fname?: {
+    contains: string;
+  };
+  lname?: {
+    contains: string;
+  };
+}
 
+interface WhereClause {
+  OR: ProfessorNameCondition[];
+  school?: string;
+}
 export const profRouter = createTRPCRouter({
   getAll: publicProcedure
     .input(z.object({ name: z.string(), school: z.string().optional() }))
     .query(async ({ ctx, input }) => {
-      let whereClause: { OR: any[]; school?: string } = {
+      const whereClause: WhereClause = {
         OR: [
           { fname: { contains: input.name } },
           { lname: { contains: input.name } },

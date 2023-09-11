@@ -5,9 +5,12 @@ export default authMiddleware({
     "/",
     "/api/trpc/professor.getAll",
     "/search/:professor/:school",
+    "/sign-in/:url",
     "/add/professor",
     "/api/trpc/professor.create",
     "/api/trpc/professor.getAll,professor.getAll",
+    "/giangvien/:id",
+    "/search/:url",
   ],
 });
 

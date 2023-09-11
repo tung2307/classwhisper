@@ -3,30 +3,16 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
+
   const professor =
     typeof router.query.professor === "string" ? router.query.professor : "";
-
-  const [school, setSchool] = useState("null");
-  const [defaultSchool, setDefaultSchool] = useState<string | null>(null);
-
-  useEffect(() => {
-    const savedSchool = localStorage.getItem("school");
-    if (savedSchool) {
-      setSchool(savedSchool);
-    }
-
-    if (
-      typeof router.query.school === "string" &&
-      router.query.school !== "null"
-    ) {
-      setDefaultSchool(router.query.school);
-      setSchool(router.query.school);
-      localStorage.setItem("school", router.query.school);
-    }
-  }, [router.query.school]);
-
+  const [school, setSchool] = useState(
+    typeof router.query.school === "string" ? router.query.school : "null",
+  );
+  const defaultSchool =
+    typeof router.query.school === "string" ? router.query.school : "null";
   const { data: profResult } = api.professor.getAll.useQuery(
     {
       name: professor,
@@ -36,53 +22,54 @@ export default function page() {
   const { data: schoolResult } = api.professor.getAll.useQuery(
     {
       name: professor,
-      school: school!,
+      school: school,
     },
-    { enabled: !!professor && school != "null" },
+    { enabled: !!professor && school !== "null" },
   );
+  console.log("ProfResult " + profResult);
+  console.log("SchoolfResult " + school);
+  useEffect(() => {
+    setSchool(
+      typeof router.query.school === "string" ? router.query.school : "null",
+    );
+  }, [router.query.school]);
 
   useEffect(() => {
-    if (schoolResult && schoolResult?.length === 0 && school !== "null") {
+    if (schoolResult?.length == 0 && schoolResult !== undefined) {
       setSchool("null");
-      localStorage.setItem("school", "null");
     }
-  }, [school, schoolResult, schoolResult?.length]);
-
-  console.log("defaultSchool:", defaultSchool);
-  console.log("schoolResult:", schoolResult);
+  }, [schoolResult]);
 
   return (
     <>
-      <div className="h-20 bg-black"></div>
-      <div className=" flex justify-center border p-20">
+      <div className=" flex justify-center border p-10 text-sm md:p-20 md:text-base">
         <div className="flex flex-col">
           <div>
-            <div className="flex flex-row">
-              {defaultSchool &&
-                (schoolResult === undefined ?? schoolResult?.length === 0) && (
-                  <div>Không tìm thấy giảng viên ở {defaultSchool}</div>
-                )}
-            </div>
+            {schoolResult === undefined && profResult && (
+              <>Không tìm thấy giảng viên ở {defaultSchool}</>
+            )}
+          </div>
+          <div>
+            {schoolResult !== undefined && (
+              <>
+                Tìm thấy {schoolResult.length} giảng viên ở {defaultSchool}
+              </>
+            )}
+            {(schoolResult === undefined ?? schoolResult?.length === 0) &&
+              profResult && (
+                <>Tìm thấy {profResult.length} giảng viên ở trường khác</>
+              )}
           </div>
 
-          <div className="mb-10 text-xl font-semibold">
-            Có&nbsp;
-            {schoolResult && schoolResult.length > 0
-              ? schoolResult.length
-              : profResult?.length}{" "}
-            giảng viên{" "}
-            {school !== "null" && schoolResult && schoolResult.length > 0 && (
-              <>ở {school}</>
-            )}
-            {school === "null" && profResult && profResult.length > 0 && (
-              <>cùng tên ở trường khác</>
-            )}
-          </div>
-          <div className="flex w-[50rem] flex-col rounded border bg-gray-50 p-5">
-            <div className="flex flex-row gap-5">
-              <div className="h-28 w-28 border bg-white">N/A</div>
-              {schoolResult
-                ? schoolResult.map((prof, index) => (
+          {schoolResult ? (
+            schoolResult.map((prof, index) => (
+              <div
+                key={index}
+                className="flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]"
+              >
+                <Link href={`/giangvien/${prof.id}`}>
+                  <div className="flex flex-col gap-5 md:flex-row">
+                    <div className="h-28 w-28 border bg-white">N/A</div>
                     <div className="flex flex-col" key={index}>
                       <div className="text-2xl font-bold">
                         {prof.lname + " " + prof.fname}
@@ -91,22 +78,37 @@ export default function page() {
                       <div>{prof.department}</div>
                       <div>{prof.school}</div>
                     </div>
-                  ))
-                : profResult &&
-                  profResult.map((prof, index) => (
-                    <div className="flex flex-col" key={index}>
-                      <div className="text-2xl font-bold">
-                        {prof.lname + " " + prof.fname}
+                  </div>
+                </Link>
+              </div>
+            ))
+          ) : (
+            <>
+              {profResult?.map((prof, index) => (
+                <div
+                  key={index}
+                  className="flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]"
+                >
+                  <Link href={`/giangvien/${prof.id}`}>
+                    <div className="flex flex-col gap-5 md:flex-row">
+                      <div className="h-28 w-28 border bg-white">N/A</div>
+                      <div className="flex flex-col" key={index}>
+                        <div className="text-2xl font-bold">
+                          {prof.lname + " " + prof.fname}
+                        </div>
+                        <div>{prof.level}</div>
+                        <div>{prof.department}</div>
+                        <div>{prof.school}</div>
                       </div>
-                      <div>{prof.level}</div>
-                      <div>{prof.department}</div>
-                      <div>{prof.school}</div>
                     </div>
-                  ))}
-            </div>
-          </div>
+                  </Link>
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </div>
+
       <div className="flex justify-center pt-10">
         <div className="flex flex-col">
           <div className="flex flex-row">

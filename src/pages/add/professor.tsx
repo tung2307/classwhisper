@@ -3,9 +3,7 @@ import { api } from "~/utils/api";
 import schoolData from "../../utils/university.json";
 import departmentData from "../../utils/department.json";
 import { useRouter } from "next/router";
-interface SchoolData {
-  [key: string]: string;
-}
+type SchoolData = Record<string, string>;
 
 type DepartmentData = string[];
 const schoolDataTyped: SchoolData = schoolData;
@@ -41,7 +39,7 @@ function SchoolInput({
 
     const filteredSuggestions = Object.keys(schoolDataTyped).filter(
       (school) =>
-        isMatch(school, value) || isMatch(schoolDataTyped[school] || "", value),
+        isMatch(school, value) ?? isMatch(schoolDataTyped[school] ?? "", value),
     );
 
     setSuggestions(filteredSuggestions);

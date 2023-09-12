@@ -104,9 +104,21 @@ export default function Profile() {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flex-col gap-2 border-t md:border-t-0 border-gray-400 md:pl-5 md:border-l">
-                        <div>
-                          Môn Học: <strong>{review.course}</strong>
+                      <div className="flex flex-col gap-2 border-t border-gray-400 md:border-l md:border-t-0 md:pl-5">
+                        <div className="flex justify-between">
+                          <div>
+                            Môn Học: <strong>{review.course}</strong>
+                          </div>
+                          <div>
+                            {new Date(review.createdAt).toLocaleDateString(
+                              "vi-VN",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              },
+                            )}
+                          </div>
                         </div>
                         <div>{review.describe}</div>
                         <div className="flex flex-col gap-2 md:flex-row">

@@ -40,7 +40,7 @@ export default function Review() {
     "Sẽ học lại lần nữa",
   ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     const joinedTags = tags.join(", ");
@@ -167,17 +167,15 @@ export default function Review() {
                     <div
                       key={index}
                       className={`h-8 w-full cursor-pointer border 
-              ${index === 0 ? "rounded-l-2xl" : ""}
-              ${index === squares.length - 1 ? "rounded-r-2xl" : ""}
-              ${
-                index <= (hoverIndex !== -1 ? hoverIndex : clickedIndex ?? -1)
-                  ? square.color
-                  : "bg-white"
-              }`}
+        ${index === 0 ? "rounded-l-2xl" : ""}
+        ${index === squares.length - 1 ? "rounded-r-2xl" : ""}
+        ${
+          index <= (hoverIndex !== -1 ? hoverIndex : clickedIndex ?? -1)
+            ? square.color
+            : "bg-white"
+        }`}
                       onMouseEnter={() => setHoverIndex(index)}
-                      onMouseLeave={() =>
-                        setHoverIndex(clickedIndex !== null ? clickedIndex : -1)
-                      }
+                      onMouseLeave={() => setHoverIndex(clickedIndex ?? -1)}
                       onClick={() => handleDifficultyClick(index)}
                     ></div>
                   ))}

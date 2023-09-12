@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
-export default function profile() {
+export default function Profile() {
   const router = useRouter();
   const id = typeof router.query.id === "string" ? router.query.id : "";
   const { data, isLoading } = api.professor.getProfessor.useQuery({ id: id });

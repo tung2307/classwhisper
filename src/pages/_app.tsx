@@ -10,6 +10,7 @@ import TopNav from "~/components/TopNav";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import CookieConsent from "~/components/Consent";
+import Footer from "~/components/Footer";
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const [isHome, setIsHome] = useState(router.asPath === "/");
@@ -53,6 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
         {!consentAccepted && <CookieConsent />}
       </div>
+      <Footer />
     </ClerkProvider>
   );
 }

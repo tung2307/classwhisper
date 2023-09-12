@@ -44,10 +44,10 @@ export default function Page() {
             4. Tuyên Bố Từ Chối Trách Nhiệm
           </h2>
           <p>
-            Trang web và nội dung của nó được cung cấp "như là" và "theo sẵn
-            có", mà không có bất kỳ sự bảo đảm nào, dù rõ ràng hay ngụ ý. Chúng
-            tôi không chịu trách nhiệm về bất kỳ thiệt hại nào phát sinh từ việc
-            sử dụng trang web này.
+            Trang web và nội dung của nó được cung cấp &quot;như là&quot; và
+            &quot;theo sẵn có&quot;, mà không có bất kỳ sự bảo đảm nào, dù rõ
+            ràng hay ngụ ý. Chúng tôi không chịu trách nhiệm về bất kỳ thiệt hại
+            nào phát sinh từ việc sử dụng trang web này.
           </p>
         </div>
 

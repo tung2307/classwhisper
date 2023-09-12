@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
@@ -38,19 +39,19 @@ function CookieConsent() {
           Trang web này sử dụng cookies để đảm bảo bạn nhận được trải nghiệm tốt
           nhất trên trang web của chúng tôi. Bằng cách nhấp vào &quot;Đồng
           ý&quot;, bạn đồng ý với
-          <a
+          <Link
             href="/dieu-khoan-dich-vu"
             className="ml-1 text-blue-500 underline hover:text-blue-700"
           >
             Điều khoản dịch vụ
-          </a>{" "}
+          </Link>{" "}
           và
-          <a
+          <Link
             href="/chinh-sach-bao-mat"
             className="ml-1 text-blue-500 underline hover:text-blue-700"
           >
             Chính sách bảo mật
-          </a>
+          </Link>
           của chúng tôi.
         </div>
         <button

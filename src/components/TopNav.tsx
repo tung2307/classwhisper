@@ -60,6 +60,7 @@ export default function TopNav() {
     setProfInputValue(value);
 
     if (results) {
+      console.log("Results found: ", results);
       setProfSuggestions(
         results.map((prof) => ({
           element: (
@@ -150,7 +151,7 @@ export default function TopNav() {
           <div className=" text-2xl md:text-4xl">
             <Link href="/">ClassWhisper</Link>
           </div>
-          <div className="md:flex hidden flex-col gap-5 text-black md:flex-row">
+          <div className="hidden flex-col gap-5 text-black md:flex md:flex-row">
             <div className="flex w-full justify-center" ref={profWrapperRef}>
               <form
                 onSubmit={handleProfFormSubmit}

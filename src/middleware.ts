@@ -11,6 +11,9 @@ export default authMiddleware({
     "/api/trpc/professor.getAll,professor.getAll",
     "/giangvien/:id",
     "/search/:url",
+    "/api/trpc/professor.getProfessor",
+    "/add/review/:id",
+    "/api/trpc/review.create",
   ],
 });
 

@@ -31,8 +31,24 @@ export const profRouter = createTRPCRouter({
 
       const result = await ctx.prisma.professor.findMany({
         where: whereClause,
+        include: {
+          reviews: {
+            select: {
+              difficulty: true,
+            },
+          },
+        },
       });
 
+      return result;
+    }),
+
+  getProfessor: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const result = await ctx.prisma.professor.findFirst({
+        where: { id: input.id },
+      });
       return result;
     }),
 

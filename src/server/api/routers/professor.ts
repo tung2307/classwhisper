@@ -48,6 +48,9 @@ export const profRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const result = await ctx.prisma.professor.findFirst({
         where: { id: input.id },
+        include: {
+          reviews: true, // Adjust 'reviews' to your actual relation name
+        },
       });
       return result;
     }),

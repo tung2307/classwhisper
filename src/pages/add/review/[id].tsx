@@ -18,6 +18,7 @@ export default function Review() {
   const [difficulty, setDifficulty] = useState("");
   const [describe, setDescribe] = useState("");
   const tagOptions = [
+    "Sẽ học lại lần nữa",
     "Bài giảng tuyệt vời",
     "Dễ tiếp cận ngoài lớp",
     "Quan tâm",
@@ -37,7 +38,6 @@ export default function Review() {
     "Quá nhiều bài luận",
     "Nhiều bài kiểm tra",
     "Giao viên chấm điểm khắt khe",
-    "Sẽ học lại lần nữa",
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -167,13 +167,14 @@ export default function Review() {
                     <div
                       key={index}
                       className={`h-8 w-full cursor-pointer border 
-        ${index === 0 ? "rounded-l-2xl" : ""}
-        ${index === squares.length - 1 ? "rounded-r-2xl" : ""}
-        ${
-          index <= (hoverIndex !== -1 ? hoverIndex : clickedIndex ?? -1)
-            ? square.color
-            : "bg-white"
-        }`}
+                    ${index === 0 ? "rounded-l-2xl" : ""}
+                    ${index === squares.length - 1 ? "rounded-r-2xl" : ""}
+                    ${
+                      index <=
+                      (hoverIndex !== -1 ? hoverIndex : clickedIndex ?? -1)
+                        ? square.color
+                        : "bg-white"
+                    }`}
                       onMouseEnter={() => setHoverIndex(index)}
                       onMouseLeave={() => setHoverIndex(clickedIndex ?? -1)}
                       onClick={() => handleDifficultyClick(index)}

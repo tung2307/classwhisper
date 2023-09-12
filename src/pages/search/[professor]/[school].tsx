@@ -8,8 +8,8 @@ interface Review {
 }
 
 const squares = [
-  { color: "bg-green-300" }, // Easy
-  { color: "bg-green-400" }, // Moderate
+  { color: "bg-green-400" }, // Easy
+  { color: "bg-green-500" }, // Moderate
   { color: "bg-yellow-500" }, // Challenging
   { color: "bg-orange-600" }, // Hard
   { color: "bg-red-700" }, // Extremely Hard
@@ -101,8 +101,7 @@ export default function Page() {
                 calculateAverageDifficulty(prof.reviews) ?? 0;
               const difficultyIndex = Math.round(averageDifficulty) - 1;
               const difficultyColor =
-                squares[Math.max(0, Math.min(difficultyIndex, 4))]?.color ??
-                "default-color";
+                squares[difficultyIndex - 1]?.color ?? "bg-gray-200"; // fallback color in case index is out of range
 
               return (
                 <div
@@ -117,7 +116,9 @@ export default function Page() {
                           className={`h-24 w-24 border ${difficultyColor} flex items-center justify-center rounded-xl`}
                         >
                           <div className="text-3xl text-white">
-                            {averageDifficulty.toFixed(2)}
+                            {averageDifficulty === 0
+                              ? "N/A"
+                              : averageDifficulty.toFixed(2)}
                           </div>
                         </div>
                       </div>
@@ -142,8 +143,7 @@ export default function Page() {
                   calculateAverageDifficulty(prof.reviews) ?? 0;
                 const difficultyIndex = Math.round(averageDifficulty) - 1;
                 const difficultyColor =
-                  squares[Math.max(0, Math.min(difficultyIndex, 4))]?.color ??
-                  "default-color";
+                  squares[difficultyIndex - 1]?.color ?? "bg-gray-200"; // fallback color in case index is out of range
 
                 return (
                   <div
@@ -160,7 +160,9 @@ export default function Page() {
                             className={`h-24 w-24 border ${difficultyColor} flex items-center justify-center rounded-xl`}
                           >
                             <div className="text-3xl text-white">
-                              {averageDifficulty.toFixed(2)}
+                              {averageDifficulty === 0
+                                ? "N/A"
+                                : averageDifficulty.toFixed(2)}
                             </div>
                           </div>
                         </div>

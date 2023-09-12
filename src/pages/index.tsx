@@ -123,6 +123,7 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
     null,
   );
   const router = useRouter();
+  const [id, setId] = useState<string[]>([]);
 
   const { data: results } = api.professor.getAll.useQuery(
     {
@@ -140,6 +141,7 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
       try {
         if (results) {
           setSuggestions(results.map((prof) => prof.fname + " " + prof.lname));
+          setId(results.map((prof) => prof.id));
         }
       } catch (error) {
         console.error("Failed to fetch suggestions", error);
@@ -202,11 +204,17 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
               key={index}
               className="cursor-pointer p-2 hover:bg-gray-200"
               onClick={() => {
+                const selectedProfIndex = suggestions.findIndex(
+                  (s) => s === suggestion,
+                );
+                const selectedProfId = id[selectedProfIndex];
+
                 setInputValue(suggestion);
                 setSelectedProfessor(suggestion);
+                if (selectedProfId !== undefined) {
+                  void router.push(`/giangvien/${selectedProfId}`);
+                }
                 setSuggestions([]);
-                // Navigate to the profile page here
-                console.log("Navigating to profile page");
               }}
             >
               {suggestion}

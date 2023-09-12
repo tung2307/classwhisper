@@ -6,13 +6,13 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
     relationMode = "prisma"
 }
 
 model Professor {
-    id         String   @id @default(cuid()) 
+    id         String   @id @default(cuid())
     fname      String
     lname      String
     level      String
@@ -36,4 +36,11 @@ model Review {
     professor Professor @relation(fields: [profId], references: [id], onDelete: Cascade)
 
     @@index([profId])
+}
+
+model CookieConsent {
+    id        String   @id @default(uuid())
+    cookieId  String   @db.Text
+    accepted  Boolean
+    createdAt DateTime @default(now())
 }

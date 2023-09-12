@@ -1,5 +1,6 @@
 import { profRouter } from "~/server/api/routers/professor";
 import { createTRPCRouter } from "~/server/api/trpc";
+import { cookieRouter } from "./routers/cookie";
 import { reviewRouter } from "./routers/review";
 
 /**
@@ -10,6 +11,7 @@ import { reviewRouter } from "./routers/review";
 export const appRouter = createTRPCRouter({
   professor: profRouter,
   review: reviewRouter,
+  cookie: cookieRouter,
 });
 
 // export type definition of API

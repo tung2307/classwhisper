@@ -9,9 +9,11 @@ import { viVN } from "@clerk/localizations";
 import TopNav from "~/components/TopNav";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import CookieConsent from "~/components/Consent";
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const [isHome, setIsHome] = useState(router.asPath === "/");
+  const [consentAccepted, setConsentAccepted] = useState(false);
 
   useEffect(() => {
     function handleRouteChange(url: string) {
@@ -24,6 +26,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, [router]);
 
+  useEffect(() => {
+    const consentCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("consent="));
+
+    if (consentCookie && consentCookie.split("=")[1] === "true") {
+      setConsentAccepted(true);
+    }
+  }, []);
+
   return (
     <ClerkProvider localization={viVN} {...pageProps}>
       <Head>
@@ -32,7 +44,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <meta charSet="UTF-8" />
       </Head>
-
       <div className="flex flex-col ">
         <div className="mx-auto w-screen">
           {isHome ? null : <TopNav />}
@@ -40,6 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </div>
         </div>
+        {!consentAccepted && <CookieConsent />}
       </div>
     </ClerkProvider>
   );

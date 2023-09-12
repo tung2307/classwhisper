@@ -14,6 +14,7 @@ export default authMiddleware({
     "/api/trpc/professor.getProfessor",
     "/add/review/:id",
     "/api/trpc/review.create",
+    "/api/trpc/cookie.create",
   ],
 });
 

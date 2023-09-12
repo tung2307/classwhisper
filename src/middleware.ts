@@ -15,6 +15,8 @@ export default authMiddleware({
     "/add/review/:id",
     "/api/trpc/review.create",
     "/api/trpc/cookie.create",
+    "/chinh-sach-bao-mat",
+    "/dieu-khoan-dich-vu",
   ],
 });
 

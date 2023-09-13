@@ -1,0 +1,26 @@
+# .github/workflows/cleanup.yml
+
+name: Clean Up Cookies
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  clean_up:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run cleanup script
+        run: npx ts-node src/utils/cleanup.mjs

@@ -178,7 +178,7 @@ export default function Professor() {
     department: "",
     level: "",
   });
-  const { mutate } = api.professor.create.useMutation({
+  const { mutate, isLoading } = api.professor.create.useMutation({
     onSuccess: (data) => {
       void router.push(`/giangvien/${data.id}`);
     },
@@ -302,9 +302,14 @@ export default function Professor() {
 
             <button
               type="submit"
-              className="w-full rounded-lg bg-blue-500 py-2 font-semibold text-white"
+              className={
+                isLoading
+                  ? "disabled w-full rounded-lg bg-blue-500 py-2 font-semibold text-white"
+                  : "w-full rounded-lg bg-blue-500 py-2 font-semibold text-white"
+              }
+              disabled={isLoading}
             >
-              Tạo
+              {isLoading ? "Đang Tạo" :"Tạo"}
             </button>
           </form>
         </div>

@@ -23,10 +23,14 @@ export default function Profile() {
   }
 
   const reviews = data?.reviews ?? [];
+  const sortedReviews = reviews.sort((a, b) => {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
   const totalDifficulty = reviews.reduce(
-    (sum, review) => sum + parseFloat(review.difficulty),
+    (sum, review) => sum + parseFloat(review.difficulty) + 1,
     0,
   );
+
   const averageDifficulty = reviews.length
     ? totalDifficulty / reviews.length
     : 0;
@@ -35,22 +39,24 @@ export default function Profile() {
   const difficultyColor =
     squares[roundedAverageDifficulty - 1]?.color ?? "bg-gray-200";
 
-  const recentReviews = showAllReviews ? reviews : reviews.slice(0, 8);
+  const recentReviews = showAllReviews
+    ? sortedReviews
+    : sortedReviews.slice(0, 8);
 
   function getDifficultyColor(difficultyScore: number) {
-    const roundedScore = Math.round(difficultyScore);
-    return squares[roundedScore - 1]?.color ?? "bg-gray-200";
+    const adjustedScore = difficultyScore + 1;
+    return squares[adjustedScore - 1]?.color ?? "bg-gray-200";
   }
 
   return (
     <>
       <div className="flex w-screen justify-center p-2 md:p-10">
-        <div className="flex w-[45rem] flex-col gap-5">
+        <div className="flex w-[50rem] flex-col gap-5">
           <div className="flex flex-col gap-3 rounded border p-5 md:flex-row">
             <div className="flex w-full flex-col items-center md:w-auto md:items-start">
-              <div className="text-center font-semibold">Độ Khó</div>
-              <div className={`h-24 w-24 rounded-3xl ${difficultyColor}`}>
-                <div className="flex h-full items-center justify-center text-5xl text-white">
+              <div className="w-full text-center font-semibold">Độ Khó</div>
+              <div className={`h-28 w-28 rounded-3xl ${difficultyColor}`}>
+                <div className="flex h-full items-center justify-center text-5xl text-white ">
                   {averageDifficulty === 0
                     ? "N/A"
                     : averageDifficulty.toFixed(2)}
@@ -92,19 +98,19 @@ export default function Profile() {
                     <div className="flex flex-col gap-2 md:flex-row">
                       <div className="flex justify-center">
                         <div className="flex flex-col">
-                          <div>Độ Khó</div>
+                          <div className="w-full text-center">Độ Khó</div>
                           <div
                             className={`h-16 w-16 rounded-2xl ${getDifficultyColor(
                               parseFloat(review.difficulty),
                             )}`}
                           >
                             <div className="flex h-full items-center justify-center text-4xl text-white">
-                              {review.difficulty}
+                              {parseInt(review.difficulty) + 1}
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="flex flex-col gap-2 border-t border-gray-400 md:border-l md:border-t-0 md:pl-5">
+                      <div className="flex w-full flex-col gap-2 border-t border-gray-400 md:border-l md:border-t-0 md:pl-5">
                         <div className="flex justify-between">
                           <div>
                             Môn Học: <strong>{review.course}</strong>

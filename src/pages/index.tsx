@@ -139,7 +139,18 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
     if (value.length > 0) {
       try {
         if (results) {
-          setSuggestions(results.map((prof) => prof.fname + " " + prof.lname));
+          setSuggestions(
+            results.map(
+              (prof) =>
+                prof.fname +
+                " " +
+                prof.lname +
+                `\r\n` +
+                prof.department +
+                ", " +
+                prof.school,
+            ),
+          );
           setId(results.map((prof) => prof.id));
         }
       } catch (error) {
@@ -201,7 +212,7 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
           {suggestions.map((suggestion, index) => (
             <div
               key={index}
-              className="cursor-pointer p-2 hover:bg-gray-200"
+              className="cursor-pointer p-2 hover:bg-gray-200 border-b"
               onClick={() => {
                 const selectedProfIndex = suggestions.findIndex(
                   (s) => s === suggestion,
@@ -216,7 +227,7 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
                 setSuggestions([]);
               }}
             >
-              {suggestion}
+              <div style={{ whiteSpace: "pre-line" }}>{suggestion}</div>
             </div>
           ))}
         </div>

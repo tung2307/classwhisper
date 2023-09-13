@@ -199,7 +199,12 @@ export default function Review() {
               </div>
               <button
                 type="submit"
-                className="cursor-pointer rounded border-none bg-blue-500 px-8 py-3 text-white"
+                className={
+                  isLoading
+                    ? "disabled cursor-pointer rounded border-none bg-blue-500 px-8 py-3 text-white"
+                    : "cursor-pointer rounded border-none bg-blue-500 px-8 py-3 text-white"
+                }
+                disabled={isLoading}
               >
                 {isLoading ? "Đang Đăng" : "Đăng"}
               </button>

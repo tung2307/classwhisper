@@ -45,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <meta charSet="UTF-8" />
       </Head>
-      <div className="flex flex-col ">
+      <div className="flex min-h-screen flex-col">
         <div className="mx-auto w-screen">
           {isHome ? null : <TopNav />}
           <div className="flex-grow">

@@ -65,13 +65,13 @@ export default function Page() {
   return (
     <>
       <div className=" flex justify-center border p-10 text-sm md:p-20 md:text-base">
-        <div className="flex flex-col">
-          <div>
+        <div className="flex w-full flex-col">
+          <div className="text-center">
             {defaultSchool !== "null" &&
               schoolResult === undefined &&
               profResult && <>Không tìm thấy giảng viên ở {defaultSchool}</>}
           </div>
-          <div>
+          <div className="text-center">
             {schoolResult !== undefined && (
               <>
                 Tìm thấy {schoolResult.length} giảng viên ở {defaultSchool}
@@ -79,15 +79,17 @@ export default function Page() {
             )}
             {(schoolResult === undefined ?? schoolResult?.length === 0) &&
               defaultSchool !== "null" &&
-              profResult && (
+              profResult &&
+              profResult.length !== 0 && (
                 <>
-                  Tìm thấy {profResult.length} giảng viên có tên
+                  Tìm thấy {profResult.length} giảng viên có tên{" "}
                   <strong>{professor}</strong> ở trường khác
                 </>
               )}
             {(schoolResult === undefined ?? schoolResult?.length === 0) &&
               defaultSchool == "null" &&
-              profResult && (
+              profResult &&
+              profResult.length !== 0 && (
                 <>
                   Tìm thấy {profResult.length} giảng viên{" "}
                   <strong>{professor}</strong> ở các trường
@@ -184,7 +186,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="flex justify-center pt-10">
+      <div className="flex justify-center pt-10 font-bold">
         <div className="flex flex-col">
           <div className="flex flex-row">
             <div>Không tìm thấy giảng viên</div>

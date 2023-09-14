@@ -66,6 +66,7 @@ export const profRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+
       const professor = await ctx.prisma.professor.create({
         data: { ...input },
       });

@@ -31,9 +31,11 @@ model Review {
     tags       String   @db.Text
     difficulty String
     describe   String   @db.Text
+    isReport   Boolean  @default(false)
     createdAt  DateTime @default(now())
 
     professor Professor @relation(fields: [profId], references: [id], onDelete: Cascade)
+    Report    Report[]
 
     @@index([profId])
 }
@@ -43,4 +45,16 @@ model CookieConsent {
     cookieId  String   @db.Text
     accepted  Boolean
     createdAt DateTime @default(now())
+}
+
+model Report {
+    id        Int      @id @default(autoincrement())
+    reviewId  String
+    userId    String
+    reason    String   @db.Text
+    detail    String?  @db.Text
+    createdAt DateTime @default(now())
+    review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+    @@index([reviewId])
 }

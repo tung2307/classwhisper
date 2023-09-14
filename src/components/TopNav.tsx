@@ -4,7 +4,11 @@ import { useRouter } from "next/router";
 import schoolData from "../utils/university.json";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { api } from "~/utils/api";
-
+type ProfSuggestion = {
+  value: string;
+  id: string;
+  element: JSX.Element;
+};
 type SchoolData = Record<string, string>;
 
 const schoolDataTyped: SchoolData = schoolData;
@@ -40,9 +44,8 @@ export default function TopNav() {
 
   // Professor Input handlers
   const [profInputValue, setProfInputValue] = useState("");
-  const [profSuggestions, setProfSuggestions] = useState<
-    { element: JSX.Element; value: string; id: string }[]
-  >([]);
+  const [profSuggestions, setProfSuggestions] = useState<ProfSuggestion[]>([]);
+
   const profWrapperRef = useRef<HTMLDivElement>(null);
 
   const { data: results } = api.professor.getAll.useQuery(
@@ -51,34 +54,39 @@ export default function TopNav() {
       school: selectedSchool ?? "",
     },
     {
-      enabled: !!profInputValue && !!selectedSchool,
+      enabled: !!profInputValue,
     },
   );
+
+  useEffect(() => {
+    if (results && profInputValue) {
+      const suggestions = results.map((prof) => ({
+        value:
+          prof.fname +
+          " " +
+          prof.lname +
+          `\r\n` +
+          prof.department +
+          ", " +
+          prof.school,
+        id: prof.id,
+        element: (
+          <>
+            {prof.fname} {prof.lname}
+            <br />
+            {prof.department}, {prof.school}
+          </>
+        ),
+      }));
+      setProfSuggestions(suggestions);
+    } else {
+      setProfSuggestions([]);
+    }
+  }, [results, profInputValue]);
 
   const handleProfInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setProfInputValue(value);
-
-    if (results) {
-      console.log("Results found: ", results);
-      setProfSuggestions(
-        results.map((prof) => ({
-          element: (
-            <div key={prof.id} className="flex flex-col border-b">
-              <div className="flex flex-row">
-                <div>{prof.level}&nbsp;</div>
-                <div className="font-bold">{prof.fname + " " + prof.lname}</div>
-              </div>
-              <div>{prof.school}</div>
-            </div>
-          ),
-          value: prof.fname + " " + prof.lname,
-          id: prof.id,
-        })),
-      );
-    } else {
-      setProfSuggestions([]);
-    }
   };
 
   const handleProfFormSubmit = (event: React.FormEvent) => {
@@ -165,11 +173,12 @@ export default function TopNav() {
                   value={profInputValue}
                   onChange={handleProfInputChange}
                 />
+
                 <div className="absolute left-0 top-0 mt-12 max-h-64 w-full overflow-y-auto rounded-b-2xl bg-white">
                   {profSuggestions.map((suggestion, index) => (
                     <div
                       key={index}
-                      className="cursor-pointer p-2 hover:bg-gray-200"
+                      className="cursor-pointer border-b p-2 hover:bg-gray-200"
                       onClick={() => {
                         setProfInputValue(suggestion.value);
                         setProfSuggestions([]);

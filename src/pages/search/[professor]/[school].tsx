@@ -148,36 +148,38 @@ export default function Page() {
                   squares[difficultyIndex - 1]?.color ?? "bg-gray-200"; // fallback color in case index is out of range
 
                 return (
-                  <div
-                    key={index}
-                    className="flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]"
-                  >
-                    <Link href={`/giangvien/${prof.id}`}>
-                      <div className="flex flex-col gap-5 md:flex-row">
-                        <div className="flex flex-col">
-                          <div className="text-center font-semibold">
-                            Độ Khó
-                          </div>
-                          <div
-                            className={`h-24 w-24 border ${difficultyColor} flex items-center justify-center rounded-xl`}
-                          >
-                            <div className="text-3xl text-white">
-                              {averageDifficulty === 0
-                                ? "N/A"
-                                : averageDifficulty.toFixed(2)}
+                  <div className="w-full flex justify-center">
+                    <div
+                      key={index}
+                      className="flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]"
+                    >
+                      <Link href={`/giangvien/${prof.id}`}>
+                        <div className="flex flex-col gap-5 md:flex-row">
+                          <div className="flex flex-col">
+                            <div className="text-center font-semibold">
+                              Độ Khó
+                            </div>
+                            <div
+                              className={`h-24 w-24 border ${difficultyColor} flex items-center justify-center rounded-xl`}
+                            >
+                              <div className="text-3xl text-white">
+                                {averageDifficulty === 0
+                                  ? "N/A"
+                                  : averageDifficulty.toFixed(2)}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="flex flex-col" key={index}>
-                          <div className="text-2xl font-bold">
-                            {prof.lname + " " + prof.fname}
+                          <div className="flex flex-col" key={index}>
+                            <div className="text-2xl font-bold">
+                              {prof.lname + " " + prof.fname}
+                            </div>
+                            <div>{prof.level}</div>
+                            <div>{prof.department}</div>
+                            <div>{prof.school}</div>
                           </div>
-                          <div>{prof.level}</div>
-                          <div>{prof.department}</div>
-                          <div>{prof.school}</div>
                         </div>
-                      </div>
-                    </Link>
+                      </Link>
+                    </div>
                   </div>
                 );
               })}

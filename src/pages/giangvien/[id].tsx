@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Report from "~/components/Report";
 import { api } from "~/utils/api";
 
 const squares = [
@@ -115,15 +116,18 @@ export default function Profile() {
                           <div>
                             Môn Học: <strong>{review.course}</strong>
                           </div>
-                          <div>
-                            {new Date(review.createdAt).toLocaleDateString(
-                              "vi-VN",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              },
-                            )}
+                          <div className="flex flex-row items-center gap-2">
+                            <div>
+                              {new Date(review.createdAt).toLocaleDateString(
+                                "vi-VN",
+                                {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                },
+                              )}
+                            </div>
+                            <Report reviewId={review.id} isReport={review.isReport}/>
                           </div>
                         </div>
                         <div>{review.describe}</div>

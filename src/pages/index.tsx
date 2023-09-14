@@ -132,33 +132,33 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
     { enabled: !!inputValue },
   );
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInputValue(value);
-
-    if (value.length > 0) {
+  useEffect(() => {
+    if (inputValue.length > 0 && results) {
       try {
-        if (results) {
-          setSuggestions(
-            results.map(
-              (prof) =>
-                prof.fname +
-                " " +
-                prof.lname +
-                `\r\n` +
-                prof.department +
-                ", " +
-                prof.school,
-            ),
-          );
-          setId(results.map((prof) => prof.id));
-        }
+        setSuggestions(
+          results.map(
+            (prof) =>
+              prof.fname +
+              " " +
+              prof.lname +
+              `\r\n` +
+              prof.department +
+              ", " +
+              prof.school,
+          ),
+        );
+        setId(results.map((prof) => prof.id));
       } catch (error) {
         console.error("Failed to fetch suggestions", error);
       }
     } else {
       setSuggestions([]);
     }
+  }, [inputValue, results]);
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
   };
 
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -212,7 +212,7 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
           {suggestions.map((suggestion, index) => (
             <div
               key={index}
-              className="cursor-pointer p-2 hover:bg-gray-200 border-b"
+              className="cursor-pointer border-b p-2 hover:bg-gray-200"
               onClick={() => {
                 const selectedProfIndex = suggestions.findIndex(
                   (s) => s === suggestion,

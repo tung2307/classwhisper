@@ -173,6 +173,7 @@ export default function Professor() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     fname: "",
+    sname: "",
     lname: "",
     school: "",
     department: "",
@@ -184,13 +185,16 @@ export default function Professor() {
     },
   });
   const [isDepartmentValid, setIsDepartmentValid] = useState(false);
-
+  const [sname, setSName] = useState("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+    if (name === "sname") {
+      setSName(value);
+    }
   };
 
   function handleChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -219,7 +223,7 @@ export default function Professor() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
+    formData.lname = formData.lname + " " + sname;
     if (!isSchoolValid || !isDepartmentValid) {
       alert("Please select a valid school and department from the suggestions");
       return;
@@ -231,7 +235,7 @@ export default function Professor() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="flex flex-col gap-5 p-5 sm:p-0 md:flex-row md:gap-10">
-        <div className="h-56  w-full flex-grow rounded-lg bg-white p-5 shadow-lg sm:h-40 sm:w-96">
+        <div className="h-62  w-full flex-grow rounded-lg bg-white p-5 shadow-lg sm:h-48 sm:w-[25rem]">
           <h2 className="mb-6 text-center text-2xl font-bold">
             Trước khi tạo giảng viên mới
           </h2>
@@ -239,8 +243,11 @@ export default function Professor() {
             Vui lòng kiểm tra tên giảng viên chắc chắn rằng không có tên mà bạn
             đang tìm kiếm.
           </p>
+          <p className="text-red-500">
+            Vui lòng nhập tên bằng chữ cái hoa và có dấu.
+          </p>
         </div>
-        <div className="animate__animated animate__fadeIn rounded-lg bg-white p-8 shadow-lg">
+        <div className="animate__animated animate__fadeIn rounded-lg bg-white p-8 shadow-lg lg:w-[30rem]">
           <h2 className="mb-6 text-center text-2xl font-bold">
             Tạo Giảng Viên
           </h2>
@@ -251,6 +258,17 @@ export default function Professor() {
                 type="text"
                 name="lname"
                 value={formData.lname}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="mb-2 block text-gray-700">Tên Đệm</label>
+              <input
+                type="text"
+                name="sname"
+                value={sname}
                 onChange={handleChange}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none"
                 required
@@ -277,7 +295,7 @@ export default function Professor() {
                 required
               >
                 <option value="">Chọn cấp bậc</option>
-                <option value="Cử Nhân">Trợ Giảng</option>
+                <option value="Trợ Giảng">Trợ Giảng</option>
                 <option value="Thạc Sĩ">Thạc Sĩ</option>
                 <option value="Tiến Sĩ">Tiến Sĩ</option>
                 <option value="Giáo Sư">Giáo Sư</option>
@@ -309,7 +327,7 @@ export default function Professor() {
               }
               disabled={isLoading}
             >
-              {isLoading ? "Đang Tạo" :"Tạo"}
+              {isLoading ? "Đang Tạo" : "Tạo"}
             </button>
           </form>
         </div>

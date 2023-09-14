@@ -17,6 +17,8 @@ export default authMiddleware({
     "/api/trpc/cookie.create",
     "/chinh-sach-bao-mat",
     "/dieu-khoan-dich-vu",
+    "/giangvien/reviewReport/:id",
+    "/api/trpc/review.getReviewbyID",
   ],
 });
 

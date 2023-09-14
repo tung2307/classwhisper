@@ -1,8 +1,25 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const reviewRouter = createTRPCRouter({
+  getReviewsbyUser: privateProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {}),
+
+  getReviewbyID: privateProcedure
+    .input(z.object({ reviewId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const review = await ctx.prisma.review.findFirst({
+        where: { id: input.reviewId },
+      });
+      return review;
+    }),
+
   create: publicProcedure
     .input(
       z.object({

@@ -10,7 +10,6 @@ export const cookieRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log(input.cookieId);
       const cookie = await ctx.prisma.cookieConsent.create({
         data: { cookieId: input.cookieId, accepted: true },
       });

@@ -148,11 +148,8 @@ export default function Page() {
                   squares[difficultyIndex - 1]?.color ?? "bg-gray-200"; // fallback color in case index is out of range
 
                 return (
-                  <div className="w-full flex justify-center">
-                    <div
-                      key={index}
-                      className="flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]"
-                    >
+                  <div key={index} className="flex w-full justify-center">
+                    <div className="flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]">
                       <Link href={`/giangvien/${prof.id}`}>
                         <div className="flex flex-col gap-5 md:flex-row">
                           <div className="flex flex-col">

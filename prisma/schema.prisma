@@ -53,6 +53,7 @@ model Report {
     userId    String
     reason    String   @db.Text
     detail    String?  @db.Text
+    response  String?  @db.Text
     createdAt DateTime @default(now())
     review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 

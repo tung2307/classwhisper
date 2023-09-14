@@ -1,9 +1,10 @@
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import schoolData from "../utils/university.json";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { api } from "~/utils/api";
+import SignedIn from "./SignedIn";
 type ProfSuggestion = {
   value: string;
   id: string;
@@ -219,9 +220,7 @@ export default function TopNav() {
           </div>
           <div>
             {user.isSignedIn ? (
-              <SignOutButton>
-                <button className="w-full text-left">Đăng Xuất</button>
-              </SignOutButton>
+              <SignedIn />
             ) : (
               <button onClick={handleClickSignIn}>Đăng Nhập</button>
             )}

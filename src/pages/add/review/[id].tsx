@@ -1,6 +1,6 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
 export default function Review() {
@@ -39,7 +39,11 @@ export default function Review() {
     "Nhiều bài kiểm tra",
     "Giao viên chấm điểm khắt khe",
   ];
+  const [showNotification, setShowNotification] = useState(true);
 
+  const handleNotificationClose = () => {
+    setShowNotification(false);
+  };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -85,6 +89,22 @@ export default function Review() {
 
   return (
     <>
+      {!user.isSignedIn && user.isLoaded && showNotification && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="rounded bg-white p-5">
+            <p className="mb-4">
+              Đăng nhập tài khoản sẽ có khả năng chỉnh sửa hoặc xóa nhận xét của
+              mình.
+            </p>
+            <button
+              onClick={handleNotificationClose}
+              className="rounded bg-blue-500 px-4 py-2 text-white"
+            >
+              Tiếp tục
+            </button>
+          </div>
+        </div>
+      )}
       <div className="flex w-screen justify-center p-5 md:p-10">
         <div className="flex flex-col gap-5 ">
           <div className="text-center text-3xl font-bold md:text-4xl">

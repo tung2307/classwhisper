@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Loading from "~/components/Loading";
 import Report from "~/components/Report";
 import { api } from "~/utils/api";
 
@@ -20,7 +21,11 @@ export default function Profile() {
   const { data, isLoading } = api.professor.getProfessor.useQuery({ id: id });
 
   if (isLoading) {
-    return <>Loading...</>;
+    return (
+      <>
+        <Loading />
+      </>
+    );
   }
 
   const reviews = data?.reviews ?? [];
@@ -127,7 +132,10 @@ export default function Profile() {
                                 },
                               )}
                             </div>
-                            <Report reviewId={review.id} isReport={review.isReport}/>
+                            <Report
+                              reviewId={review.id}
+                              isReport={review.isReport}
+                            />
                           </div>
                         </div>
                         <div>{review.describe}</div>

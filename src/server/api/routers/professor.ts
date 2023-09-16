@@ -18,10 +18,14 @@ export const profRouter = createTRPCRouter({
   getAll: publicProcedure
     .input(z.object({ name: z.string(), school: z.string().optional() }))
     .query(async ({ ctx, input }) => {
+      const nameParts = input.name
+        .split(" ")
+        .filter((part) => part.trim().length > 0);
+
       const whereClause: WhereClause = {
         OR: [
-          { fname: { contains: input.name } },
-          { lname: { contains: input.name } },
+          ...nameParts.map((part) => ({ fname: { contains: part } })),
+          ...nameParts.map((part) => ({ lname: { contains: part } })),
         ],
       };
 
@@ -66,7 +70,6 @@ export const profRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-
       const professor = await ctx.prisma.professor.create({
         data: { ...input },
       });

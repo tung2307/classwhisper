@@ -138,9 +138,9 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
         setSuggestions(
           results.map(
             (prof) =>
-              prof.fname +
-              " " +
               prof.lname +
+              " " +
+              prof.fname +
               `\r\n` +
               prof.department +
               ", " +

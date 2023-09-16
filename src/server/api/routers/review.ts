@@ -9,7 +9,12 @@ import {
 export const reviewRouter = createTRPCRouter({
   getReviewsbyUser: privateProcedure
     .input(z.object({ userId: z.string() }))
-    .query(async ({ ctx, input }) => {}),
+    .query(async ({ ctx, input }) => {
+      const review = await ctx.prisma.review.findMany({
+        where: { userId: input.userId },
+      });
+      return review;
+    }),
 
   getReviewbyID: privateProcedure
     .input(z.object({ reviewId: z.string() }))

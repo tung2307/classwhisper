@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Loading from "~/components/Loading";
 import { api } from "~/utils/api";
 interface Review {
   difficulty: string;
@@ -25,19 +26,21 @@ export default function Page() {
   );
   const defaultSchool =
     typeof router.query.school === "string" ? router.query.school : "null";
-  const { data: profResult } = api.professor.getAll.useQuery(
-    {
-      name: professor,
-    },
-    { enabled: !!professor && school == "null" },
-  );
-  const { data: schoolResult } = api.professor.getAll.useQuery(
-    {
-      name: professor,
-      school: school,
-    },
-    { enabled: !!professor && school !== "null" },
-  );
+  const { data: profResult, isLoading: profLoading } =
+    api.professor.getAll.useQuery(
+      {
+        name: professor,
+      },
+      { enabled: !!professor && school == "null" },
+    );
+  const { data: schoolResult, isLoading: schoolLoading } =
+    api.professor.getAll.useQuery(
+      {
+        name: professor,
+        school: school,
+      },
+      { enabled: !!professor && school !== "null" },
+    );
 
   useEffect(() => {
     setSchool(
@@ -64,12 +67,16 @@ export default function Page() {
   };
   return (
     <>
+      {profLoading ?? schoolLoading ? <Loading /> : null}
       <div className=" flex justify-center border p-10 text-sm md:p-20 md:text-base">
         <div className="flex w-full flex-col">
           <div className="text-center">
             {defaultSchool !== "null" &&
               schoolResult === undefined &&
               profResult && <>Không tìm thấy giảng viên ở {defaultSchool}</>}
+            {defaultSchool === "null" &&
+              schoolResult === undefined &&
+              profResult && <>Không tìm thấy giảng viên</>}
           </div>
           <div className="text-center">
             {schoolResult !== undefined && (

@@ -12,7 +12,7 @@ export default function Admin() {
       user.isLoaded &&
       email !== "tung.nguyen23797@gmail.com"
     ) {
-      router.push("/");
+      void router.push("/");
     }
   }, [user, router]);
 

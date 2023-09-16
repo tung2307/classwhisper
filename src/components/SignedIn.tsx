@@ -6,11 +6,11 @@ import Link from "next/link";
 
 export default function SignedIn() {
   const user = useUser();
-  const router = useRouter();
   const [isModal, setIsModal] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  function handleModal() {
+  function handleModal(event: React.MouseEvent) {
+    event.stopPropagation();
     setIsModal((prev) => !prev);
   }
 
@@ -40,14 +40,14 @@ export default function SignedIn() {
             width={50}
             height={50}
             className="cursor-pointer rounded-full hover:border hover:border-blue-400"
-            onClick={handleModal}
+            onMouseDown={handleModal}
           />
           {isModal && (
             <div
               ref={modalRef}
               className="absolute right-0 top-14 w-32 rounded border bg-gray-100 p-2 text-center text-black"
             >
-              <div className="cursor-pointer hover:border-b hover:bg-gray-50 mb-1">
+              <div className="mb-1 cursor-pointer hover:border-b hover:bg-gray-50">
                 <Link href="/userprofile">Tài Khoản</Link>
               </div>
               <SignOutButton>

@@ -5,6 +5,7 @@ import schoolData from "../utils/university.json";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { api } from "~/utils/api";
 import SignedIn from "./SignedIn";
+import SearchIcon from "@mui/icons-material/Search";
 type ProfSuggestion = {
   value: string;
   id: string;
@@ -73,7 +74,7 @@ export default function TopNav() {
         id: prof.id,
         element: (
           <>
-            {prof.fname} {prof.lname}
+            {prof.lname} {prof.fname}
             <br />
             {prof.department}, {prof.school}
           </>
@@ -96,7 +97,7 @@ export default function TopNav() {
     setProfInputValue("");
     setSchoolInputValue("");
   };
-
+  console.log(profInputValue);
   useEffect(() => {
     function handleProfClickOutside(event: MouseEvent) {
       if (
@@ -153,6 +154,9 @@ export default function TopNav() {
     };
   }, [schoolWrapperRef]);
 
+  function handleClick() {
+    console.log("Click");
+  }
   return (
     <>
       <div className="flex h-auto w-screen items-center bg-black text-white">
@@ -164,7 +168,7 @@ export default function TopNav() {
             <div className="flex w-full justify-center" ref={profWrapperRef}>
               <form
                 onSubmit={handleProfFormSubmit}
-                className="relative h-12 w-64"
+                className="relative h-12 md:w-auto lg:w-64"
               >
                 <input
                   className={`h-full w-full p-2 text-xl outline-none hover:bg-gray-100 ${
@@ -181,7 +185,7 @@ export default function TopNav() {
                       key={index}
                       className="cursor-pointer border-b p-2 hover:bg-gray-200"
                       onClick={() => {
-                        setProfInputValue(suggestion.value);
+                        setProfInputValue("");
                         setProfSuggestions([]);
                         void router.push(`/giangvien/${suggestion.id}`);
                       }}
@@ -193,7 +197,7 @@ export default function TopNav() {
               </form>
             </div>
             <div className="flex w-full justify-center" ref={schoolWrapperRef}>
-              <div className="relative h-12 w-64">
+              <div className="relative h-12 md:w-auto lg:w-64">
                 <input
                   className={`h-full w-full p-2 text-xl outline-none hover:bg-gray-100 ${
                     schoolSuggestions.length > 0
@@ -218,7 +222,11 @@ export default function TopNav() {
               </div>
             </div>
           </div>
-          <div>
+
+          <div className="flex flex-row items-center gap-2">
+            <div className="flex md:hidden" onClick={handleClick}>
+              <SearchIcon />
+            </div>
             {user.isSignedIn ? (
               <SignedIn />
             ) : (

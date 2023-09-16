@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 
-export default function reviewReport() {
+export default function ReviewReport() {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [timeLeft, setTimeLeft] = useState(5);
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function reviewReport() {
       }, 5000);
     },
   });
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     mutate({ reviewId, reason, detail });
   };

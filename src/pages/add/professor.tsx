@@ -223,13 +223,13 @@ export default function Professor() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    formData.lname = formData.lname + " " + sname;
+    const fullName = formData.lname + " " + sname;
     if (!isSchoolValid || !isDepartmentValid) {
       alert("Please select a valid school and department from the suggestions");
       return;
     }
 
-    mutate({ ...formData });
+    mutate({ ...formData, lname: fullName });
   }
 
   return (

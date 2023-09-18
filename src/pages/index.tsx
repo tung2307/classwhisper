@@ -83,9 +83,11 @@ export default function Home() {
             CLASS WHISPER
           </div>
           {selectedSchool && (
-            <div className="flex w-full flex-row justify-center text-lg text-white md:text-2xl">
-              <div>Tìm giảng viên ở&nbsp;</div>{" "}
-              <div className="border-b font-bold">{selectedSchool}</div>
+            <div className="flex w-full flex-row justify-center text-lg text-white md:text-2xl p-2 text-center">
+              <div>
+                Tìm giảng viên ở&nbsp;
+                <span className="border-b font-bold">{selectedSchool}</span>
+              </div>
             </div>
           )}
           {showProfessorInput ? (

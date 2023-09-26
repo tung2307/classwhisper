@@ -52,9 +52,11 @@ export default function Review() {
     const formData = {
       course,
       tags: joinedTags,
-      difficulty,
+      difficulty:(parseFloat(difficulty) + 1).toString(),
       describe,
     };
+
+
 
     if (user.isSignedIn) {
       mutate({ profId: id, userId: user.user.id, ...formData });

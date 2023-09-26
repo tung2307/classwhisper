@@ -108,10 +108,15 @@ export default function Page() {
             schoolResult.map((prof, index) => {
               const averageDifficulty =
                 calculateAverageDifficulty(prof.reviews) ?? 0;
-              const difficultyIndex = Math.round(averageDifficulty) - 1;
-              const difficultyColor =
-                squares[difficultyIndex - 1]?.color ?? "bg-gray-200"; // fallback color in case index is out of range
-
+              let difficultyColor = "bg-gray-200"; // Default to gray
+              if (averageDifficulty !== 0) {
+                const difficultyIndex = Math.max(
+                  1,
+                  Math.min(5, Math.round(averageDifficulty)),
+                );
+                difficultyColor =
+                  squares[difficultyIndex - 1]?.color ?? "bg-gray-200"; // this will rarely fall back to gray now, since the array has defined colors for indices 1-5
+              }
               return (
                 <div
                   key={index}
@@ -150,10 +155,15 @@ export default function Page() {
               {profResult?.map((prof, index) => {
                 const averageDifficulty =
                   calculateAverageDifficulty(prof.reviews) ?? 0;
-                const difficultyIndex = Math.round(averageDifficulty) - 1;
-                const difficultyColor =
-                  squares[difficultyIndex - 1]?.color ?? "bg-gray-200"; // fallback color in case index is out of range
-
+                let difficultyColor = "bg-gray-200"; // Default to gray
+                if (averageDifficulty !== 0) {
+                  const difficultyIndex = Math.max(
+                    1,
+                    Math.min(5, Math.round(averageDifficulty)),
+                  );
+                  difficultyColor =
+                    squares[difficultyIndex - 1]?.color ?? "bg-gray-200"; // this will rarely fall back to gray now, since the array has defined colors for indices 1-5
+                }
                 return (
                   <div key={index} className="flex w-full justify-center">
                     <div className="flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]">
@@ -201,7 +211,7 @@ export default function Page() {
           <div className="flex w-full justify-center ">
             <Link
               href="/add/professor"
-              className="border-b border-black text-center"
+              className="mb-10 border-b border-black text-center text-xl text-red-500 md:text-2xl"
             >
               Tạo mới
             </Link>

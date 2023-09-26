@@ -33,7 +33,7 @@ export default function Profile() {
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
   const totalDifficulty = reviews.reduce(
-    (sum, review) => sum + parseFloat(review.difficulty) + 1,
+    (sum, review) => sum + parseFloat(review.difficulty),
     0,
   );
 
@@ -50,7 +50,7 @@ export default function Profile() {
     : sortedReviews.slice(0, 8);
 
   function getDifficultyColor(difficultyScore: number) {
-    const adjustedScore = difficultyScore + 1;
+    const adjustedScore = difficultyScore;
     return squares[adjustedScore - 1]?.color ?? "bg-gray-200";
   }
 
@@ -111,7 +111,7 @@ export default function Profile() {
                             )}`}
                           >
                             <div className="flex h-full items-center justify-center text-4xl text-white">
-                              {parseInt(review.difficulty) + 1}
+                              {parseInt(review.difficulty)}
                             </div>
                           </div>
                         </div>

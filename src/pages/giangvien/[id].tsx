@@ -22,11 +22,7 @@ export default function Profile() {
   const router = useRouter();
   const id = typeof router.query.id === "string" ? router.query.id : "";
   const { data, isLoading } = api.professor.getProfessor.useQuery({ id: id });
-  const { mutate } = api.professor.updateCourse.useMutation({
-    onSuccess: () => {
-      window.location.reload();
-    },
-  });
+  const { mutate } = api.professor.updateCourse.useMutation({});
   if (isLoading) {
     return (
       <>

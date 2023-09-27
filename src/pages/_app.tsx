@@ -13,7 +13,9 @@ import CookieConsent from "~/components/Consent";
 import Footer from "~/components/Footer";
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const [isHome, setIsHome] = useState(router.asPath === "/");
+  const [isHome, setIsHome] = useState(
+    router.asPath === "/" ?? router.pathname === "/",
+  );
   const [consentAccepted, setConsentAccepted] = useState(false);
 
   useEffect(() => {

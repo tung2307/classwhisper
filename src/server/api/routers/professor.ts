@@ -1,3 +1,4 @@
+import { contextProps } from "@trpc/react-query/shared";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -57,6 +58,15 @@ export const profRouter = createTRPCRouter({
         },
       });
       return result;
+    }),
+
+  updateCourse: publicProcedure
+    .input(z.object({ id: z.string(), course: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.professor.update({
+        where: { id: input.id },
+        data: { course: input.course },
+      });
     }),
 
   create: publicProcedure

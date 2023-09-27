@@ -4,7 +4,9 @@ import { useState } from "react";
 import Loading from "~/components/Loading";
 import Report from "~/components/Report";
 import { api } from "~/utils/api";
-
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckIcon from "@mui/icons-material/Check";
 const squares = [
   { color: "bg-green-400" }, // Easy
   { color: "bg-green-500" }, // Moderate
@@ -15,11 +17,16 @@ const squares = [
 
 export default function Profile() {
   const [showAllReviews, setShowAllReviews] = useState(false);
-
+  const [course, setCourse] = useState("");
+  const [isAddCourse, setIsAddCourse] = useState(false);
   const router = useRouter();
   const id = typeof router.query.id === "string" ? router.query.id : "";
   const { data, isLoading } = api.professor.getProfessor.useQuery({ id: id });
-
+  const { mutate } = api.professor.updateCourse.useMutation({
+    onSuccess: () => {
+      window.location.reload();
+    },
+  });
   if (isLoading) {
     return (
       <>
@@ -54,6 +61,17 @@ export default function Profile() {
     return squares[adjustedScore - 1]?.color ?? "bg-gray-200";
   }
 
+  function handleAddCourse() {
+    if (course == "") {
+      return;
+    }
+    if (data?.course) {
+      data.course += `, ${course}`; // This just alters the local variable and will not persist
+      setCourse(""); // reset the input field
+      setIsAddCourse(false); // hide the input field
+      mutate({ id: data.id, course: data.course });
+    }
+  }
   return (
     <>
       <div className="flex w-screen justify-center p-2 md:p-10">
@@ -71,17 +89,72 @@ export default function Profile() {
             </div>
             <div className="flex flex-col gap-3 pt-5">
               <div className="text-4xl font-bold">
-                {data?.level + " " + data?.lname + " " + data?.fname}
+                <span className="text-3xl font-thin">{data?.level}</span>
+                {" " + data?.lname + " " + data?.fname}
               </div>
               <div>
-                Giảng Viên khoa{" "}
+                Giảng dạy
                 <u>
                   <strong>{data?.department}</strong>
                 </u>{" "}
-                ở{" "}
+                tại{" "}
                 <u>
                   <strong>{data?.school}</strong>
                 </u>
+              </div>
+              <div>Môn học:&nbsp;</div>
+              <div className="flex flex-row flex-wrap gap-2">
+                {data?.course.split(", ").map((course, index) => {
+                  return (
+                    <>
+                      <div
+                        key={index}
+                        className="rounded border bg-blue-600 px-2 text-white"
+                      >
+                        {course}
+                      </div>
+                    </>
+                  );
+                })}
+                {isAddCourse ? (
+                  <>
+                    <div className="mt-3 flex w-full flex-col gap-2">
+                      <input
+                        placeholder="Nhập Môn Học"
+                        className="h-10 w-full rounded-lg px-3 shadow outline-none"
+                        value={course}
+                        onChange={(e) => setCourse(e.target.value)}
+                      />
+                      <div className="flex flex-row gap-5">
+                        <div
+                          className="flex cursor-pointer items-center justify-center rounded bg-blue-500 px-2 py-1 text-white"
+                          onClick={handleAddCourse}
+                        >
+                          <CheckIcon />
+                        </div>
+                        <div
+                          className="flex cursor-pointer items-center justify-center rounded bg-red-500 px-2 py-1 text-white"
+                          onClick={() => setIsAddCourse(false)}
+                        >
+                          <CloseIcon />
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div
+                    className="flex cursor-pointer items-center rounded-lg bg-gray-500 px-2 py-1 text-white"
+                    onClick={() => {
+                      setCourse("");
+                      setIsAddCourse(true);
+                    }}
+                  >
+                    <span className=" flex items-center ">
+                      <AddCircleIcon />
+                    </span>
+                    Thêm Môn Học
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -153,7 +226,7 @@ export default function Profile() {
                               </div>
                             ))}
                           </div>
-                          <div className="flex md:hidden justify-end">
+                          <div className="flex justify-end md:hidden">
                             <Report
                               reviewId={review.id}
                               isReport={review.isReport}

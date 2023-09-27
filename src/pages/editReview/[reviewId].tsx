@@ -9,9 +9,12 @@ export default function EditReview() {
     const currentURL = window.location.href;
     void router.push(`/sign-in/${encodeURIComponent(currentURL)}`);
   }
-  const { data } = api.review.getReviewsbyUser.useQuery(
+  const reviewId =
+    typeof router.query.reviewId === "string" ? router.query.reviewId : "";
+
+  const { data } = api.review.getReviewbyID.useQuery(
     {
-      userId: user.user?.id ?? "",
+      reviewId: reviewId,
     },
     { enabled: !!user.user?.id },
   );

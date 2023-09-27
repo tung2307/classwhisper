@@ -13,9 +13,15 @@ import CookieConsent from "~/components/Consent";
 import Footer from "~/components/Footer";
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const [isHome, setIsHome] = useState(
-    router.asPath === "/" ?? router.pathname === "/",
-  );
+  useEffect(() => {
+    // Check if fbclid is present in the query parameters
+    if ("fbclid" in router.query) {
+      // Redirect to homepage
+      void router.replace("/");
+    }
+  }, [router.query]);
+  const [isHome, setIsHome] = useState(router.asPath === "/");
+
   const [consentAccepted, setConsentAccepted] = useState(false);
 
   useEffect(() => {

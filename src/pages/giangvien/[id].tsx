@@ -105,7 +105,7 @@ export default function Profile() {
                     <>
                       <div
                         key={index}
-                        className="rounded border bg-blue-600 px-2 text-white"
+                        className="rounded border bg-blue-600 px-2 py-1 text-white"
                       >
                         {course}
                       </div>

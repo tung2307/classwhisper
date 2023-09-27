@@ -93,11 +93,18 @@ export default function TopNav() {
 
   const handleProfFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    void router.push(`/search/${profInputValue}/${selectedSchool}`);
+    if (profInputValue == "") {
+      alert("Vui lòng nhập tên giảng viên");
+      return;
+    }
+    void router.push(`/search/${profInputValue}/${selectedSchool}`).then(() => {
+      window.location.reload();
+    });
     setProfInputValue("");
     setSchoolInputValue("");
+    setSelectedSchool(null);
   };
-  console.log(profInputValue);
+
   useEffect(() => {
     function handleProfClickOutside(event: MouseEvent) {
       if (
@@ -219,6 +226,14 @@ export default function TopNav() {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+            <div
+              className="flex cursor-pointer items-center  text-white "
+              onClick={handleProfFormSubmit}
+            >
+              <div className="px-2 py-1 border rounded ">
+                <SearchIcon />
               </div>
             </div>
           </div>

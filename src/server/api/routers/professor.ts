@@ -67,6 +67,7 @@ export const profRouter = createTRPCRouter({
         school: z.string(),
         department: z.string(),
         level: z.string(),
+        course: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

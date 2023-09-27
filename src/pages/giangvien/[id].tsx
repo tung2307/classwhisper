@@ -132,10 +132,12 @@ export default function Profile() {
                                 },
                               )}
                             </div>
-                            <Report
-                              reviewId={review.id}
-                              isReport={review.isReport}
-                            />
+                            <div className="hidden md:flex">
+                              <Report
+                                reviewId={review.id}
+                                isReport={review.isReport}
+                              />
+                            </div>
                           </div>
                         </div>
                         <div>{review.describe}</div>
@@ -150,6 +152,12 @@ export default function Profile() {
                                 {tag}
                               </div>
                             ))}
+                          </div>
+                          <div className="flex md:hidden justify-end">
+                            <Report
+                              reviewId={review.id}
+                              isReport={review.isReport}
+                            />
                           </div>
                         </div>
                       </div>

@@ -28,7 +28,7 @@ function isMatch(school: string, schoolCode: string, query: string) {
 }
 
 export default function Home() {
-  const [showProfessorInput, setShowProfessorInput] = useState(false);
+  const [showProfessorInput, setShowProfessorInput] = useState(true);
   const [selectedSchool, setSelectedSchool] = useState<string | null>(null);
   const [isSchoolSelected, setIsSchoolSelected] = useState(false);
   const router = useRouter();
@@ -83,7 +83,7 @@ export default function Home() {
             CLASS WHISPER
           </div>
           {selectedSchool && (
-            <div className="flex w-full flex-row justify-center text-lg text-white md:text-2xl p-2 text-center">
+            <div className="flex w-full flex-row justify-center p-2 text-center text-lg text-white md:text-2xl">
               <div>
                 Tìm giảng viên ở&nbsp;
                 <span className="border-b font-bold">{selectedSchool}</span>
@@ -183,6 +183,10 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    if (inputValue == "") {
+      alert("Vui lòng nhập tên giảng viên");
+      return;
+    }
     if (!selectedProfessor) {
       // Navigate to the search results page here
       void router.push(`/search/${inputValue.toString()}/${schoolName}`);
@@ -190,7 +194,7 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
   };
 
   return (
-    <div className="flex w-full justify-center" ref={wrapperRef}>
+    <div className="flex w-full flex-col justify-center" ref={wrapperRef}>
       <form
         onSubmit={handleFormSubmit}
         className="relative h-14 w-64 transition duration-300 hover:scale-105 md:w-[30rem]"
@@ -234,6 +238,15 @@ function ProfessorInput({ schoolName }: { schoolName: string | null }) {
           ))}
         </div>
       </form>
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          className="mt-2 rounded bg-blue-400 p-2 text-white"
+          onClick={handleFormSubmit}
+        >
+          Tìm kiếm
+        </button>
+      </div>
     </div>
   );
 }

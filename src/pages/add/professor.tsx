@@ -99,10 +99,8 @@ function SchoolInput({
 
 function DepartmentInput({
   onDepartmentSelect,
-  setIsDepartmentValid,
 }: {
   onDepartmentSelect: (departmentName: string) => void;
-  setIsDepartmentValid: (isValid: boolean) => void;
 }) {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -116,7 +114,6 @@ function DepartmentInput({
     );
 
     setSuggestions(filteredSuggestions);
-    setIsDepartmentValid(filteredSuggestions.includes(value));
   };
 
   const handleSuggestionClick = (suggestion: string) => {
@@ -149,7 +146,6 @@ function DepartmentInput({
         className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none"
         value={inputValue}
         onChange={handleInputChange}
-        required
       />
 
       {suggestions.length > 0 && (
@@ -176,6 +172,7 @@ export default function Professor() {
     sname: "",
     lname: "",
     school: "",
+    course: "",
     department: "",
     level: "",
   });
@@ -184,7 +181,7 @@ export default function Professor() {
       void router.push(`/giangvien/${data.id}`);
     },
   });
-  const [isDepartmentValid, setIsDepartmentValid] = useState(false);
+
   const [sname, setSName] = useState("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -218,14 +215,13 @@ export default function Professor() {
       ...formData,
       department: departmentName,
     });
-    setIsDepartmentValid(true);
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const fullName = formData.lname + " " + sname;
-    if (!isSchoolValid || !isDepartmentValid) {
-      alert("Please select a valid school and department from the suggestions");
+    if (!isSchoolValid) {
+      alert("Vui Lòng Chọn Trường Học");
       return;
     }
 
@@ -233,7 +229,7 @@ export default function Professor() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 py-5 md:py-20">
       <div className="flex flex-col gap-5 p-5 sm:p-0 md:flex-row md:gap-10">
         <div className="h-62  w-full flex-grow rounded-lg bg-white p-5 shadow-lg sm:h-48 sm:w-[25rem]">
           <h2 className="mb-6 text-center text-2xl font-bold">
@@ -253,7 +249,27 @@ export default function Professor() {
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="mb-2 block text-gray-700">Họ</label>
+              <label className="mb-2 block text-gray-700">
+                Học Hàm <span className="text-red-500 ">*</span>
+              </label>
+              <select
+                name="level"
+                value={formData.level}
+                onChange={handleChangeSelect}
+                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 outline-none "
+                required
+              >
+                <option value="">Chọn học hàm</option>
+                <option value="Trợ Giảng">Trợ Giảng</option>
+                <option value="Giảng Viên">Giảng Viên</option>
+                <option value="Phó Giáo Sư">Phó Giáo Sư</option>
+                <option value="Giáo Sư">Giáo Sư</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="mb-2 block text-gray-700">
+                Họ <span className="text-red-500 ">*</span>
+              </label>
               <input
                 type="text"
                 name="lname"
@@ -271,11 +287,12 @@ export default function Professor() {
                 value={sname}
                 onChange={handleChange}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none"
-                required
               />
             </div>
             <div className="mb-4">
-              <label className="mb-2 block text-gray-700">Tên</label>
+              <label className="mb-2 block text-gray-700">
+                Tên <span className="text-red-500 ">*</span>
+              </label>
               <input
                 type="text"
                 name="fname"
@@ -286,24 +303,9 @@ export default function Professor() {
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-gray-700">Cấp bậc</label>
-              <select
-                name="level"
-                value={formData.level}
-                onChange={handleChangeSelect}
-                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 outline-none "
-                required
-              >
-                <option value="">Chọn cấp bậc</option>
-                <option value="Trợ Giảng">Trợ Giảng</option>
-                <option value="Thạc Sĩ">Thạc Sĩ</option>
-                <option value="Tiến Sĩ">Tiến Sĩ</option>
-                <option value="Giáo Sư">Giáo Sư</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="mb-2 block text-gray-700">Trường</label>
+              <label className="mb-2 block text-gray-700">
+                Trường <span className="text-red-500 ">*</span>
+              </label>
               {/* Integrated the SchoolInput component here */}
               <SchoolInput
                 onSchoolSelect={handleSchoolSelect}
@@ -311,11 +313,21 @@ export default function Professor() {
               />
             </div>
             <div className="mb-4">
-              <label className="mb-2 block text-gray-700">Khoa</label>
-              <DepartmentInput
-                onDepartmentSelect={handleDepartmentSelect}
-                setIsDepartmentValid={setIsDepartmentValid}
+              <label className="mb-2 block text-gray-700">
+                Môn Học <span className="text-red-500 ">*</span>
+              </label>
+              <input
+                type="text"
+                name="course"
+                value={formData.course}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none"
+                required
               />
+            </div>
+            <div className="mb-4">
+              <label className="mb-2 block text-gray-700">Khoa</label>
+              <DepartmentInput onDepartmentSelect={handleDepartmentSelect} />
             </div>
 
             <button

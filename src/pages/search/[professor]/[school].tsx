@@ -76,7 +76,7 @@ export default function Page() {
               profResult && <>Không tìm thấy giảng viên ở {defaultSchool}</>}
             {defaultSchool === "null" &&
               schoolResult === undefined &&
-              profResult && <>Không tìm thấy giảng viên</>}
+              profResult?.length == 0 && <>Không tìm thấy giảng viên</>}
           </div>
           <div className="text-center">
             {schoolResult !== undefined && (
@@ -120,7 +120,7 @@ export default function Page() {
               return (
                 <div
                   key={index}
-                  className="flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]"
+                  className="mb-5 flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]"
                 >
                   <Link href={`/giangvien/${prof.id}`}>
                     <div className="flex flex-col gap-5 md:flex-row">
@@ -142,7 +142,7 @@ export default function Page() {
                           {prof.lname + " " + prof.fname}
                         </div>
                         <div>{prof.level}</div>
-                        <div>{prof.department}</div>
+                        <div>{prof.course}</div>
                         <div>{prof.school}</div>
                       </div>
                     </div>
@@ -166,10 +166,10 @@ export default function Page() {
                 }
                 return (
                   <div key={index} className="flex w-full justify-center">
-                    <div className="flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]">
+                    <div className="mb-5 flex w-full flex-col rounded border bg-gray-50 p-5 md:w-[50rem]">
                       <Link href={`/giangvien/${prof.id}`}>
                         <div className="flex flex-col gap-5 md:flex-row">
-                          <div className="flex flex-col">
+                          <div className="flex flex-col items-center">
                             <div className="text-center font-semibold">
                               Độ Khó
                             </div>
@@ -188,7 +188,7 @@ export default function Page() {
                               {prof.lname + " " + prof.fname}
                             </div>
                             <div>{prof.level}</div>
-                            <div>{prof.department}</div>
+                            <div>{prof.course}</div>
                             <div>{prof.school}</div>
                           </div>
                         </div>

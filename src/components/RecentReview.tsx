@@ -1,4 +1,5 @@
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 const squares = [
   { color: "bg-green-400" }, // Easy
@@ -8,6 +9,7 @@ const squares = [
   { color: "bg-red-700" }, // Extremely Hard
 ];
 export default function RecentReview() {
+  const router = useRouter();
   const user = useUser();
   const { data } = api.review.getReviewsbyUser.useQuery(
     {
@@ -21,7 +23,7 @@ export default function RecentReview() {
   }
   return (
     <>
-      <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-5 p-5">
+      <div className="grid grid-flow-row grid-cols-1 gap-5 p-5 lg:grid-cols-2">
         {data
           ? data.map((review, index) => (
               <>
@@ -68,7 +70,7 @@ export default function RecentReview() {
 
                       <div className="flex flex-col gap-2 md:flex-row">
                         Tags:
-                        <div className="flex flex-row flex-wrap  gap-2 max-h-20 overflow-auto">
+                        <div className="flex max-h-20 flex-row  flex-wrap gap-2 overflow-auto">
                           {review.tags.split(", ").map((tag, tagIndex) => (
                             <div
                               key={tagIndex}
@@ -78,6 +80,14 @@ export default function RecentReview() {
                             </div>
                           ))}
                         </div>
+                      </div>
+                      <div
+                        className="mt-2 flex cursor-pointer justify-end px-2"
+                        onClick={() => {
+                          void router.push("/editReview/" + review.id);
+                        }}
+                      >
+                        Chỉnh Sửa
                       </div>
                     </div>
                   </div>

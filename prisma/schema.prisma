@@ -17,7 +17,8 @@ model Professor {
     lname      String
     level      String
     school     String
-    department String
+    course     String   @db.MediumText()
+    department String?
     createdAt  DateTime @default(now())
     updatedAt  DateTime @updatedAt
     reviews    Review[] // Updated to lowercase

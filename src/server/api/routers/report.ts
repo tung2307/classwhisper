@@ -19,7 +19,7 @@ export const reportouter = createTRPCRouter({
         const reports = await ctx.prisma.report.findMany({
           where: { userId: input.userId },
           orderBy: {
-            createdAt: "asc", // or use 'updatedAt' or other timestamp field if 'createdAt' doesn't exist
+            createdAt: "desc", // or use 'updatedAt' or other timestamp field if 'createdAt' doesn't exist
           },
         });
         return reports;

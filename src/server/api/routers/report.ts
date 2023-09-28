@@ -3,20 +3,28 @@ import { useUser } from "@clerk/nextjs";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
 export const reportouter = createTRPCRouter({
-  getAllReport: privateProcedure.query(async ({ ctx }) => {
-    const user = useUser();
-    const email = user.user?.emailAddresses[0]?.emailAddress;
-    if (email == "tung.nguyen23797@gmail.com") {
-      const reports = await ctx.prisma.report.findMany({
-        orderBy: {
-          createdAt: "asc", // or use 'updatedAt' or other timestamp field if 'createdAt' doesn't exist
-        },
-      });
-      return reports;
-    } else {
-      throw new Error("Not authenticated");
-    }
-  }),
+  getAllReport: privateProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const user = useUser();
+      const email = user.user?.emailAddresses[0]?.emailAddress;
+      if (input.userId == email) {
+        const reports = await ctx.prisma.report.findMany({
+          orderBy: {
+            createdAt: "asc", // or use 'updatedAt' or other timestamp field if 'createdAt' doesn't exist
+          },
+        });
+        return reports;
+      } else {
+        const reports = await ctx.prisma.report.findMany({
+          where: { userId: input.userId },
+          orderBy: {
+            createdAt: "asc", // or use 'updatedAt' or other timestamp field if 'createdAt' doesn't exist
+          },
+        });
+        return reports;
+      }
+    }),
 
   create: privateProcedure
     .input(
